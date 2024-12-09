@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myweb1
+  name: myweb1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myweb1
+  template:
+    metadata:
+      labels:
+        app: myweb1
+    spec:
+      containers:
+      - image: lakshmisatya/freestyle:latest
+        imagePullPolicy: Always
+        name: myweb1
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: myweb1
+  name: myweb1
+spec:
+  ports:
+  - nodePort: 32224
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: myweb1
+  type: NodePort
